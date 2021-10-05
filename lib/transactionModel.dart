@@ -9,8 +9,8 @@ class TransactionModel {
 
   //Constructor
   TransactionModel(
-      {@required id,
-      @required title,
+      {@required this.id,
+      @required this.title,
       @required this.amount,
       @required this.date});
 }
