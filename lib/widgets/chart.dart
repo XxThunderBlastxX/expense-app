@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/widgets/chartBar.dart';
 import 'package:intl/intl.dart';
 
+import './chartBar.dart';
 import '../models/transactionModel.dart';
 
 class Chart extends StatelessWidget {
@@ -19,14 +19,17 @@ class Chart extends StatelessWidget {
       );
       double totalSum = 0.0;
       for (int i = 0; i < recentTransactions.length; i++) {
-        if (recentTransactions[i].date!.day == weekDay.day &&
-            recentTransactions[i].date!.month == weekDay.month &&
-            recentTransactions[i].date!.year == weekDay.year) {
+        if (DateFormat('EEEE').format(recentTransactions[i].date!) ==
+            DateFormat('EEEE').format(weekDay)) {
           totalSum += recentTransactions[i].amount;
         }
       }
+      // print({
+      //   "day": DateFormat.E().format(weekDay).substring(0, 3),
+      //   "amount": totalSum
+      // }.toString());
       return {
-        "day": DateFormat.E().format(weekDay).substring(0, 1),
+        "day": DateFormat.E().format(weekDay).substring(0, 3),
         "amount": totalSum
       };
     }).reversed.toList();
@@ -40,6 +43,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(recentTransactions[2].date);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
@@ -47,17 +51,19 @@ class Chart extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: groupedTransactionValues.map((data) {
-            return Flexible(
-              fit: FlexFit.tight,
-              child: ChartBar(
-                  data['day'].toString(),
-                  (data['amount'] as double),
-                  totalSpending == 0.0
-                      ? 0.0
-                      : (data['amount'] as double) / totalSpending),
-            );
-          }).toList(),
+          children: groupedTransactionValues.map(
+            (data) {
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                    data['day'].toString(),
+                    (data['amount'] as double),
+                    totalSpending == 0.0
+                        ? 0.0
+                        : ((data['amount'] as double) / totalSpending)),
+              );
+            },
+          ).toList(),
         ),
       ),
     );
