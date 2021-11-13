@@ -53,56 +53,62 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              onSubmitted: (_) => _submitData(),
-              controller: titleController,
-              // onChanged: (val) {
-              //   this.titleInput = val;
-              // },
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              onSubmitted: (_) => _submitData(),
-              controller: amountController,
-              keyboardType: TextInputType.numberWithOptions(
-                  decimal:
-                      true), //withOptions given bcz to make decimal input available on iOS
-            ),
-            Container(
-              height: 70,
-              child: Row(children: [
-                Expanded(
-                  child: Text(
-                    _selectedDate == null
-                        ? "No Date Chosen!!"
-                        : 'Date : ${DateFormat('yyyy-MM-dd').format(_selectedDate as DateTime).toString()}',
-                  ),
-                ),
-                FlatButton(
-                  textColor: Theme.of(context).primaryColor,
-                  onPressed: _presentDatePicker,
-                  child: Text("Choose Date",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                )
-              ]),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _submitData();
-              },
-              child: Text(
-                "Add Transaction",
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                onSubmitted: (_) => _submitData(),
+                controller: titleController,
+                // onChanged: (val) {
+                //   this.titleInput = val;
+                // },
               ),
-              style: ElevatedButton.styleFrom(primary: Colors.purple),
-            ),
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                onSubmitted: (_) => _submitData(),
+                controller: amountController,
+                keyboardType: TextInputType.numberWithOptions(
+                    decimal:
+                        true), //withOptions given bcz to make decimal input available on iOS
+              ),
+              Container(
+                height: 70,
+                child: Row(children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? "No Date Chosen!!"
+                          : 'Date : ${DateFormat('yyyy-MM-dd').format(_selectedDate as DateTime).toString()}',
+                    ),
+                  ),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    onPressed: _presentDatePicker,
+                    child: Text("Choose Date",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  )
+                ]),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _submitData();
+                },
+                child: Text(
+                  "Add Transaction",
+                ),
+                style: ElevatedButton.styleFrom(primary: Colors.purple),
+              ),
+            ],
+          ),
         ),
       ),
     );
